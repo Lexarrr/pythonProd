@@ -12,7 +12,7 @@ def notification():
 
 
 def get_data_from_cb(url):
-    logging.debug('Start func get_data_from_cb')
+    logging.debug('START func get_data_from_cb')
     result = requests.get(url)
     logging.debug('data successfully received from the Central Bank')
     raw_json = result.json()['Valute']
