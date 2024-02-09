@@ -6,8 +6,8 @@ import redis
 app = FastAPI()
 
 
-def connect_to_db(host, port, user, password, db):
-    connection = pymysql.connect(host='172.20.10.13', port=306, user='obmen', password='123456', db='bank')
+def connect_to_db():
+    connection = pymysql.connect(host='172.20.10.13', port=3306, user='obmen', password='123456', db='bank')
     cursor = connection.cursor()
     return connection, cursor
 
@@ -31,10 +31,12 @@ def get_valute_rate(valute_name):
 
 
 @app.get("/convert")
-def convert_valute(fv, sv, count):
-    st = int(count)
-    time.sleep(st)
-    return fv, sv, count
+def convert_valute(fv, sv, vcount):
+    connection, cursor = connect_to_db()
+    fv_rate = get_valute_rate_from_db(connection, cursor, fv)
+    sv_rate = get_valute_rate_from_db(connection, cursor, sv)
+    OUTVALUTE_COUNT = round((float(vcount) * fv_rate) / sv_rate, 2)
+    return OUTVALUTE_COUNT
 
 #сдеелать чтобы конверт возвращал сколько нужно возвращать валюты
 #
