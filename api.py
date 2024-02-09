@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import pymysql
 import datetime
 import time
+import redis
 app = FastAPI()
 
 
